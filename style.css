@@ -1,0 +1,209 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0b0d14;
+  color: #cfd6e4;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  align-items: center;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+#wrap { position: relative; padding: 12px; }
+
+#game {
+  display: block;
+  background: #000;
+  border: 2px solid #2a3350;
+  border-radius: 6px;
+  image-rendering: pixelated;
+  max-width: 100%;
+  height: auto;
+}
+
+#help {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: #6b7694;
+  letter-spacing: 0.05em;
+}
+
+.hidden { display: none !important; }
+
+/* ---- エディタ ---- */
+#editorBar {
+  margin-top: 8px;
+  background: #131829;
+  border: 1px solid #2a3350;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+#palette { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+
+.palBtn {
+  width: 44px; height: 44px;
+  border: 2px solid #2a3350;
+  border-radius: 4px;
+  background: #0b0d14;
+  cursor: pointer;
+  padding: 2px;
+  position: relative;
+}
+.palBtn canvas { width: 100%; height: 100%; image-rendering: pixelated; }
+.palBtn.sel { border-color: #ffd23e; box-shadow: 0 0 8px #ffd23e66; }
+.palBtn .palKey {
+  position: absolute; right: 1px; bottom: 0;
+  font-size: 9px; color: #8a93ad;
+}
+
+#editorBtns { display: flex; flex-wrap: wrap; gap: 6px; }
+
+button {
+  background: #212a48;
+  color: #dfe6f5;
+  border: 1px solid #3a4670;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+button:hover { background: #2c3860; }
+
+#edMsg { margin-top: 6px; font-size: 12px; color: #9ecb7b; min-height: 15px; }
+
+/* ---- モーダル ---- */
+#ioModal {
+  position: fixed; inset: 0;
+  background: rgba(5,7,12,0.8);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+#ioBox {
+  background: #131829;
+  border: 1px solid #3a4670;
+  border-radius: 8px;
+  padding: 16px;
+  width: min(640px, 90vw);
+}
+#ioTitle { font-size: 14px; margin-bottom: 8px; color: #ffd23e; }
+#ioText {
+  width: 100%; height: 260px;
+  background: #0b0d14; color: #cfd6e4;
+  border: 1px solid #2a3350; border-radius: 4px;
+  font-family: ui-monospace, "Cascadia Mono", monospace;
+  font-size: 12px; padding: 8px; resize: vertical;
+  margin-bottom: 8px; white-space: pre;
+}
+#ioBox button { margin-right: 6px; }
+
+/* ---- スマホ用バーチャルコントローラ ---- */
+#touchUI {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body.touch.playing #touchUI { display: flex; }
+body.touch #help { display: none; }
+body.touch.playing #wrap { margin-bottom: 160px; }
+body.touch #game {
+  max-height: calc(100vh - 30px);
+  max-height: calc(100svh - 30px);
+}
+
+#tPad, #tMid button, .digBtn { pointer-events: auto; }
+#tRight { display: flex; align-items: flex-end; gap: 10px; }
+
+#tPad {
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(33, 42, 72, 0.5);
+  border: 2px solid rgba(96, 116, 176, 0.55);
+  position: relative;
+  touch-action: none;
+  flex-shrink: 0;
+}
+#tPad.on { background: rgba(58, 74, 122, 0.6); }
+#tPad span {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(215, 226, 255, 0.75);
+  font-size: 20px;
+  pointer-events: none;
+}
+#tPad .n { top: 17%; }
+#tPad .s { top: 83%; }
+#tPad .w { left: 17%; }
+#tPad .e { left: 83%; }
+
+#tMid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+#tMid button {
+  background: rgba(33, 42, 72, 0.55);
+  border: 1px solid rgba(96, 116, 176, 0.5);
+  border-radius: 16px;
+  color: #cfd6e4;
+  font-size: 12px;
+  padding: 8px 14px;
+  touch-action: none;
+}
+
+#tDig { display: flex; gap: 12px; flex-shrink: 0; }
+.digBtn {
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  background: rgba(63, 42, 20, 0.55);
+  border: 2px solid rgba(255, 180, 71, 0.55);
+  color: #ffd23e;
+  font-size: 20px;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+}
+.digBtn small { font-size: 10px; color: rgba(255, 224, 150, 0.85); }
+.digBtn.on { background: rgba(255, 210, 62, 0.3); }
+
+/* 幅の狭い縦画面: 全体を一回り小さく */
+@media (max-width: 480px) {
+  #tPad { width: 118px; height: 118px; }
+  .digBtn { width: 62px; height: 62px; font-size: 16px; }
+  .digBtn small { font-size: 9px; }
+  #tMid button { font-size: 11px; padding: 6px 10px; }
+  #tRight { gap: 8px; }
+  #touchUI { padding-left: 10px; padding-right: 10px; gap: 8px; }
+  body.touch.playing #wrap { margin-bottom: 130px; }
+}
+
+/* 横画面のスマホ: canvas と重なるぶん小さく・薄く */
+@media (max-height: 500px) {
+  body.touch.playing #wrap { margin-bottom: 0; }
+  #tPad { width: 112px; height: 112px; }
+  .digBtn { width: 60px; height: 60px; font-size: 16px; }
+  .digBtn small { font-size: 9px; }
+  #tMid { flex-direction: row; margin-bottom: 0; }
+  #tRight { flex-direction: column; align-items: flex-end; gap: 8px; }
+  #touchUI { opacity: 0.85; }
+}

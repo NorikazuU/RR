@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CAVE RUNNER — ロードランナー風ゲーム</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="896" height="560"></canvas>
+
+  <!-- エディタUI（エディットモード時のみ表示） -->
+  <div id="editorBar" class="hidden">
+    <div id="palette"></div>
+    <div id="editorBtns">
+      <button id="btnTest">▶ テストプレイ</button>
+      <button id="btnEdSave">保存</button>
+      <button id="btnEdLoad">読込</button>
+      <button id="btnEdClear">全消去</button>
+      <button id="btnEdExport">書き出し</button>
+      <button id="btnEdImport">読み込み(ﾃｷｽﾄ)</button>
+      <button id="btnEdExit">タイトルへ</button>
+    </div>
+    <div id="edMsg"></div>
+  </div>
+
+  <!-- 書き出し/読み込みダイアログ -->
+  <div id="ioModal" class="hidden">
+    <div id="ioBox">
+      <div id="ioTitle">ステージデータ</div>
+      <textarea id="ioText" spellcheck="false"></textarea>
+      <div>
+        <button id="btnIoApply">この内容を読み込む</button>
+        <button id="btnIoCopy">コピー</button>
+        <button id="btnIoClose">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="help">
+    ←→↑↓ / WASD：移動　Z：左を掘る　X：右を掘る　R：やり直し　Esc：タイトル
+  </div>
+</div>
+
+<!-- スマホ用バーチャルコントローラ（タッチ端末のプレイ中のみ表示） -->
+<div id="touchUI">
+  <div id="tPad">
+    <span class="n">▲</span><span class="s">▼</span><span class="w">◀</span><span class="e">▶</span>
+  </div>
+  <div id="tRight">
+    <div id="tMid">
+      <button id="tRestart">やり直し</button>
+      <button id="tTitle">タイトル</button>
+    </div>
+    <div id="tDig">
+      <button class="digBtn" id="tDigL">◀⛏<small>左を掘る</small></button>
+      <button class="digBtn" id="tDigR">⛏▶<small>右を掘る</small></button>
+    </div>
+  </div>
+</div>
+
+<script src="levels.js"></script>
+<script src="engine.js"></script>
+<script src="render.js"></script>
+<script src="editor.js"></script>
+<script src="game.js"></script>
+<script src="touch.js"></script>
+</body>
+</html>
